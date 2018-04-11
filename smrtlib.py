@@ -109,7 +109,7 @@ def vobc_to_emu2(vobc_number):
     #Returns the corresponding vobc number, but returns an empty string if the emu number entry cannot be found
     return _vobc_to_emu2_dict.get(vobc_number, "")
 
-#Converts EMU/DT id to train name
+#Converts EMU/DT id to train type
 #e.g. 3001 -> KHI
 def emu_to_type(emu_number):
     #initialise the lookup dictionary if it has not already been initialised.
@@ -144,3 +144,12 @@ def emu_to_name(emu_number):
         pass
     #Returns the corresponding vobc number, but returns an empty string if the emu number entry cannot be found
     return _emu_to_name_dict.get(emu_number, "")
+
+#Checks whether an indicated time "now" is between a start time and an end time.
+#Input: now, start, end times, all as python Time objects
+#Output: Boolean True/False
+def time_is_in_between(now, start, end):
+    if start <= end:
+        return start <= now < end
+    else: # over midnight e.g., 23:30-04:15
+        return start <= now or now < end
