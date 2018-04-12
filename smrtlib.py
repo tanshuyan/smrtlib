@@ -19,6 +19,8 @@ _emu_to_emu2_dict = None
 _vobc_to_emu2_dict = None
 _emu_to_type_dict = None
 _emu_to_name_dict = None
+_train_id_to_emu_dict = None
+_emu_to_train_id_dict = None
 
 #Excel file headers
 _type_header = 'Type'
@@ -26,6 +28,7 @@ _name_header = 'Name'
 _emu_header = 'EMU'
 _emu2_header = 'EMU2'
 _vobc_header = 'VOBC ID'
+_train_id_header = 'Train ID'
 
 
 #Returns a dataframe containing the trains lookup table
@@ -144,6 +147,42 @@ def emu_to_name(emu_number):
         pass
     #Returns the corresponding vobc number, but returns an empty string if the emu number entry cannot be found
     return _emu_to_name_dict.get(emu_number, "")
+
+#Converts train id to EMU/DT id
+#e.g. 1 -> 3001
+def train_id_to_emu(train_id):
+    #initialise the lookup dictionary if it has not already been initialised.
+    #This means that the program only has to read the lookup table excel file once, and not for every subsequent call of this function 
+    #Very speed
+    global _train_id_to_emu_dict
+    if _train_id_to_emu_dict is None:
+        _train_id_to_emu_dict = _get_train_lookup_df().set_index(_train_id_header)[_emu_header].to_dict()
+        print ("_train_id_to_emu_dict dictionary initialised")
+    #If the input was given in string format, convert it to an integer
+    try:
+        train_id = int(train_id)
+    except ValueError:
+        pass
+    #Returns the corresponding vobc number, but returns an empty string if the emu number entry cannot be found
+    return _train_id_to_emu_dict.get(train_id, "")
+
+#Converts EMU/DT id to train id
+#e.g. 3001 -> 1
+def emu_to_train_id(emu_id):
+    #initialise the lookup dictionary if it has not already been initialised.
+    #This means that the program only has to read the lookup table excel file once, and not for every subsequent call of this function 
+    #Very speed
+    global _emu_to_train_id_dict
+    if _emu_to_train_id_dict is None:
+        _emu_to_train_id_dict = _get_train_lookup_df().set_index(_emu_header)[_train_id_header].to_dict()
+        print ("_EMU_to_train_id_dict dictionary initialised")
+    #If the input was given in string format, convert it to an integer
+    try:
+        emu_id = int(emu_id)
+    except ValueError:
+        pass
+    #Returns the corresponding vobc number, but returns an empty string if the emu number entry cannot be found
+    return _emu_to_train_id_dict.get(emu_id, "")
 
 #Checks whether an indicated time "now" is between a start time and an end time.
 #Input: now, start, end times, all as python Time objects

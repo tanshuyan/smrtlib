@@ -7,6 +7,7 @@ Created on Wed Apr  4 09:21:48 2018
 
 #This library tests smrtlib.py
 import smrtlib
+
 for x in range(3001,3020):
     print(smrtlib.emu_to_vobc(x))
 print(smrtlib.emu_to_vobc("a"))
@@ -52,5 +53,23 @@ print(smrtlib.emu_to_name("         3001   "))
 print(smrtlib.emu_to_name("1404"))
 print(smrtlib.emu_to_name("1435"))
 print(smrtlib.emu_to_name("1451"))
+
+for x in range(3001,3020):
+    print(smrtlib.emu_to_train_id(x))
+print(smrtlib.emu_to_train_id("a"))
+print(smrtlib.emu_to_train_id("3001"))
+print(smrtlib.emu_to_train_id("         3001   "))
+print(smrtlib.emu_to_train_id("1404"))
+print(smrtlib.emu_to_train_id("1435"))
+print(smrtlib.emu_to_train_id("1451"))
+
+for x in range(1,20):
+    print(smrtlib.train_id_to_emu(x))
+print(smrtlib.train_id_to_emu("a"))
+print(smrtlib.train_id_to_emu("1"))
+print(smrtlib.train_id_to_emu("         001   "))
+print(smrtlib.train_id_to_emu("404"))
+print(smrtlib.train_id_to_emu("435"))
+print(smrtlib.train_id_to_emu("451"))
 
 "can I has cheezburger"
